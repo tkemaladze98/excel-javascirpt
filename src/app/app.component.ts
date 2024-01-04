@@ -35,7 +35,9 @@ export class AppComponent {
       data.forEach((item: any) => {
         let newItem = { ...item };
         const existedItem = newExcelData.find(
-          (newItem: any) => newItem.clientId === item.clientId
+          (newItem: any) =>
+            newItem.clientId === item.clientId &&
+            newItem.country === item.country
         );
         if (existedItem) {
           existedItem.count += item.count || 0;
