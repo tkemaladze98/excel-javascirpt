@@ -1,0 +1,46 @@
+.main-div {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-div .add-btn {
+  padding: 16px;
+  background-color: rgba(0, 0, 250, 0.9);
+  color: white;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 8px;
+}
+
+.file-input {
+  display: none;
+}
+
+.updatedExcel {
+  padding: 8px 16px;
+  border: 1px dashed black;
+  border-radius: 8px;
+  display: flex;
+  gap: 16px;
+  cursor: pointer;
+  .svg-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  span {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  img {
+    cursor: pointer;
+  }
+}
