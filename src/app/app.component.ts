@@ -33,17 +33,14 @@ export class AppComponent {
       let sheetNames = workBook.SheetNames;
       let data = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
       data.forEach((item: any) => {
+        let newItem = { ...item };
         const existedItem = newExcelData.find(
           (newItem: any) => newItem.clientId === item.clientId
         );
         if (existedItem) {
           existedItem.count += item.count || 0;
         } else {
-          newExcelData.push({
-            clientId: item.clientId,
-            count: item.count,
-            country: item.country,
-          });
+          newExcelData.push(newItem);
         }
       });
       this.updatedExcelObj = {
