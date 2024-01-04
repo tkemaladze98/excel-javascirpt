@@ -25,29 +25,33 @@ export class AppComponent {
       alert('Please Upload Excel File');
       return;
     }
-    let newExcelData: any[] = [];
     let fileReader = new FileReader();
+    let summedData: any = {};
     fileReader.readAsBinaryString(file);
     fileReader.onload = (e) => {
       let workBook = XLSX.read(fileReader.result, { type: 'binary' });
       let sheetNames = workBook.SheetNames;
       let data = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
       data.forEach((item: any) => {
-        let newItem = { ...item };
-        const existedItem = newExcelData.find(
-          (newItem: any) =>
-            newItem.ClientBusinessId === item.ClientBusinessId &&
-            newItem.ReceiverCountry === item.ReceiverCountry
-        );
-        if (existedItem) {
-          existedItem.count++;
+        let key = item.ClientBusinesssId + '-' + item.ReceiverCountry;
+        if (summedData[key]) {
+          summedData[key] += 1;
         } else {
-          newExcelData.push({ ...newItem, count: 0 });
+          summedData[key] = 1;
         }
       });
+      let result = Object.keys(summedData).map((key) => {
+        let [ClientBusinesssId, ReceiverCountry] = key.split('-');
+        return {
+          ClientBusinesssId: parseInt(ClientBusinesssId),
+          ReceiverCountry: ReceiverCountry,
+          count: summedData[key],
+        };
+      });
+      console.log(result);
       this.updatedExcelObj = {
         fileName: fileName,
-        data: newExcelData,
+        data: result,
         extension: extension,
         sheetName: sheetNames[0],
       };
