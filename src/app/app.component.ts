@@ -33,22 +33,21 @@ export class AppComponent {
       let sheetNames = workBook.SheetNames;
       let data = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
       data.forEach((item: any) => {
-        let key = item.ClientBusinesssId + '-' + item.ReceiverCountry;
-        if (summedData[key]) {
-          summedData[key] += 1;
-        } else {
-          summedData[key] = 1;
+        if (!summedData[item.ReceiverCountry]) {
+          summedData[item.ReceiverCountry] = [];
+        }
+        if (
+          !summedData[item.ReceiverCountry].includes(item.ClientBusinesssId)
+        ) {
+          summedData[item.ReceiverCountry].push(item.ClientBusinesssId);
         }
       });
       let result = Object.keys(summedData).map((key) => {
-        let [ClientBusinesssId, ReceiverCountry] = key.split('-');
         return {
-          ClientBusinesssId: parseInt(ClientBusinesssId),
-          ReceiverCountry: ReceiverCountry,
-          count: summedData[key],
+          ReceiverCountry: key,
+          count: summedData[key].length,
         };
       });
-      console.log(result);
       this.updatedExcelObj = {
         fileName: fileName,
         data: result,
