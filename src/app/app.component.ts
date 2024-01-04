@@ -36,13 +36,13 @@ export class AppComponent {
         let newItem = { ...item };
         const existedItem = newExcelData.find(
           (newItem: any) =>
-            newItem.clientId === item.clientId &&
-            newItem.country === item.country
+            newItem.ClientBusinessId === item.ClientBusinessId &&
+            newItem.ReceiverCountry === item.ReceiverCountry
         );
         if (existedItem) {
-          existedItem.count += item.count || 0;
+          existedItem.count++;
         } else {
-          newExcelData.push(newItem);
+          newExcelData.push({ ...newItem, count: 0 });
         }
       });
       this.updatedExcelObj = {
